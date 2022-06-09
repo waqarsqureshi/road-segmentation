@@ -113,7 +113,7 @@ for root, sub_dirs, files in os.walk(input_path):
          obj_image = np.zeros((H,W,3,34), dtype=np.uint8)
          final_image = np.zeros((H,W,3), dtype=np.uint8)
        
-         for i in range(0,33):
+         for i in range(0,22):
            obj_mask[:,:,i] = ((labelID_mask == i)*255).astype(np.uint8)
            bgr_obj_mask = np.stack((obj_mask[:,:,i],)*3,axis=-1)
            obj_image[:,:,:,i] = cv2.bitwise_and(resized_image, bgr_obj_mask)
