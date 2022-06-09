@@ -90,12 +90,15 @@ print("Model Loaded")
 output_layer_ir = next(iter(exec_net.outputs))
 input_layer_ir = next(iter(exec_net.input_info))
 
+kernel = np.ones((25,25),np.uint8)
 
 ###################################################
 for root, sub_dirs, files in os.walk(input_path):
     for file in files:
         if(file.endswith(".jpg")):
+         #file = "4A18RAR351A 0000.340 1.jpg"   # just for sample test
          orig = cv2.imread(os.path.join(root,file)) # Read the image using opencv format
+         
          image = cv2.cvtColor(orig, cv2.COLOR_BGR2RGB)
          image_h, image_w, _ = orig.shape # can the shape of the image be obtained
          ##########################################################################
@@ -109,40 +112,40 @@ for root, sub_dirs, files in os.walk(input_path):
          obj_mask = np.zeros((H,W,34), dtype=np.uint8)
          obj_image = np.zeros((H,W,3,34), dtype=np.uint8)
          final_image = np.zeros((H,W,3), dtype=np.uint8)
-
+       
          for i in range(0,33):
            obj_mask[:,:,i] = ((labelID_mask == i)*255).astype(np.uint8)
            bgr_obj_mask = np.stack((obj_mask[:,:,i],)*3,axis=-1)
            obj_image[:,:,:,i] = cv2.bitwise_and(resized_image, bgr_obj_mask)
            if i == 11:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp= cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            elif i==12:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp = cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            elif i==13:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp = cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            elif i==14:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp = cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            elif i==15:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp = cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            elif i==17:
                 temp = obj_image[:,:,:,i]
-                temp = cv2.GaussianBlur(temp,(25,25),0)
-                temp = cv2.GaussianBlur(temp,(25,25),0)
+                #temp = cv2.GaussianBlur(temp,(25,25),0)
+                temp = cv2.dilate(temp,kernel,iterations = 1)
                 obj_image[:,:,:,i] = cv2.bitwise_and(temp, bgr_obj_mask)
            final_image = final_image + obj_image[:,:,:,i]
            
@@ -152,11 +155,12 @@ for root, sub_dirs, files in os.walk(input_path):
          cv2.putText(resized_image , "PMS ROAD SURVEY", (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
         
          cv2.imwrite(os.path.join(output_path,file),resized_image)
-
-         #cv2.imshow(file, final_image)
-         #k = cv2.waitKey(0)
-         #cv2.destroyAllWindows()
-         #if k == 27: 
+        '''
+         cv2.imshow(file, final_image)
+         k = cv2.waitKey(0)
          cv2.destroyAllWindows()
-            #break
+         if k == 27: 
+          cv2.destroyAllWindows()
+          break
+        '''
 ###################################################
