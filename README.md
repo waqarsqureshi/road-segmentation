@@ -6,7 +6,7 @@ The semantic-segmentation-cityscape do the same thing for cityscape dataset and 
 the utility file is used in road-segmentation.py to get the segmentation mask.
 you can download the model from openvino and keep it in the model folder
 
-#Command for changing city scape dataset
+# Command for changing city scape dataset
 python3 ./semantic_segmentation_resize_cityscape.py -i /home/pms -tv train -c aachen
 
 python3 ./semantic_segmentation_resize_cityscape.py -i /home/pms/cityscapes
