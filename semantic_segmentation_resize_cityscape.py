@@ -20,14 +20,9 @@ from re import L
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-from openvino.inference_engine import IECore
+
 import argparse, os, glob, sys,random, json, base64,io
 argparse = argparse.ArgumentParser()
-from skimage.measure import approximate_polygon, find_contours
-
-sys.path.append("./utils")
-from notebook_utils import segmentation_map_to_image
-from notebook_utils import download_ir_model
 
 from PIL import Image
 from collections import namedtuple
@@ -35,14 +30,6 @@ from labels import labels
 from labels_roadsurvey import labelsRoadsurvey
 
 
-print(labelsRoadsurvey[0].Id, labelsRoadsurvey[0].color, labelsRoadsurvey[0].name)
-print(labelsRoadsurvey[1].Id, labelsRoadsurvey[1].color, labelsRoadsurvey[1].name)
-print(labelsRoadsurvey[2].Id, labelsRoadsurvey[2].color, labelsRoadsurvey[2].name)
-print(labelsRoadsurvey[3].Id, labelsRoadsurvey[3].color, labelsRoadsurvey[3].name)
-print(labelsRoadsurvey[4].Id, labelsRoadsurvey[4].color, labelsRoadsurvey[4].name)
-print(labelsRoadsurvey[5].Id, labelsRoadsurvey[5].color, labelsRoadsurvey[5].name)
-print(labelsRoadsurvey[6].Id, labelsRoadsurvey[6].color, labelsRoadsurvey[6].name)
-#'''
 
 argparse.add_argument(
     "-i", "--path", type=str, help="path to input directory"
